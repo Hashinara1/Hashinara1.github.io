@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lennie Simon — Portfolio</title>
+    <meta name="description" content="Portfolio de Lennie Simon, développeuse de jeux vidéo : projets personnels, réalisations scolaires et compétences en programmation." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>L</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        section {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* HERO */
+        #accueil {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+        }
+
+        .hero-name {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(3rem, 8vw, 6.5rem);
+            color: var(--white);
+            letter-spacing: 0.06em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+            .hero-name span {
+                color: var(--blue-light);
+            }
+
+        .hero-sub {
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            letter-spacing: 0.2em;
+            color: var(--blue-pale);
+            margin-bottom: 1.5rem;
+            min-height: 1.5em;
+        }
+
+        .hero-desc {
+            max-width: 500px;
+            font-size: 0.9rem;
+            line-height: 1.8;
+            color: rgba(168, 216, 240, 0.7);
+            margin-bottom: 2.5rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            opacity: 0.4;
+        }
+
+            .scroll-indicator span {
+                font-size: 0.65rem;
+                letter-spacing: 0.2em;
+                text-transform: uppercase;
+                color: var(--blue-pale);
+            }
+
+        .mouse {
+            width: 22px;
+            height: 34px;
+            border: 1.5px solid var(--blue-pale);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            padding-top: 6px;
+        }
+
+            .wheel {
+                width: 3px;
+                height: 7px;
+                border-radius: 3px;
+                background: var(--blue-light);
+                animation: wheel-scroll 1.8s cubic-bezier(0.45, 0, 0.35, 1) infinite;
+            }
+
+        @keyframes wheel-scroll {
+            0% {
+                transform: translateY(0);
+                opacity: 0;
+            }
+
+            25% {
+                opacity: 1;
+            }
+
+            70% {
+                transform: translateY(12px);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(12px);
+                opacity: 0;
+            }
+        }
+
+        /* SECTION PROJETS */
+        #projets {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .projects-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+            row-gap: 0.8rem;
+        }
+
+        .tab-group {
+            display: flex;
+            border: 1px solid rgba(91, 179, 232, 0.25);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--blue-pale);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            padding: 0.6rem 1.4rem;
+            cursor: pointer;
+            transition: background 0.25s, color 0.25s;
+            position: relative;
+        }
+
+            .tab-btn + .tab-btn {
+                border-left: 1px solid rgba(91, 179, 232, 0.25);
+            }
+
+            .tab-btn.active {
+                background: var(--blue-mid);
+                color: var(--white);
+            }
+
+            .tab-btn:not(.active):hover {
+                background: rgba(91, 179, 232, 0.08);
+                color: var(--blue-light);
+            }
+
+        .year-dropdown-wrapper {
+            position: relative;
+            margin-left: 1rem;
+            display: none;
+        }
+
+            .year-dropdown-wrapper.visible {
+                display: block;
+            }
+
+        .year-select {
+            appearance: none;
+            background: rgba(27, 58, 92, 0.7);
+            border: 1px solid rgba(91, 179, 232, 0.25);
+            border-radius: 6px;
+            color: var(--blue-pale);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.78rem;
+            letter-spacing: 0.1em;
+            padding: 0.6rem 2.2rem 0.6rem 1rem;
+            cursor: pointer;
+            transition: border-color 0.25s;
+        }
+
+            .year-select:hover {
+                border-color: rgba(91, 179, 232, 0.5);
+            }
+
+            .year-select:focus {
+                outline: none;
+                border-color: var(--blue-light);
+            }
+
+        .year-dropdown-wrapper::after {
+            content: '';
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%) rotate(45deg);
+            width: 6px;
+            height: 6px;
+            border-right: 1.5px solid var(--blue-pale);
+            border-bottom: 1.5px solid var(--blue-pale);
+            pointer-events: none;
+        }
+
+        .project-group {
+            display: none;
+        }
+
+            .project-group.active {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 340px));
+                gap: 1.5rem;
+                justify-content: center;
+            }
+
+        .project-card {
+            background: var(--bg-sec);
+            border-radius: 12px;
+            border: 1px solid rgba(91, 179, 232, 0.2);
+            overflow: hidden;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            transition: transform 0.3s cubic-bezier(0.25,0.8,0.25,1), box-shadow 0.3s cubic-bezier(0.25,0.8,0.25,1), border-color 0.3s;
+        }
+
+            .project-card:hover {
+                transform: translateY(-6px) scale(1.02);
+                box-shadow: 0 12px 40px rgba(91, 179, 232, 0.2);
+                border-color: rgba(91, 179, 232, 0.5);
+            }
+
+        .project-video-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #0a1628 0%, #1b3a5c 50%, #0d2440 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+            .project-video-placeholder .play-icon {
+                width: 48px;
+                height: 48px;
+                border: 2px solid rgba(91,179,232,0.4);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+                .project-video-placeholder .play-icon::after {
+                    content: '';
+                    border-left: 16px solid rgba(91,179,232,0.5);
+                    border-top: 10px solid transparent;
+                    border-bottom: 10px solid transparent;
+                    margin-left: 4px;
+                }
+
+            .project-video-placeholder span {
+                font-size: 0.7rem;
+                color: rgba(91,179,232,0.4);
+                letter-spacing: 0.1em;
+            }
+
+        .project-info {
+            padding: 1rem 1.2rem 1.2rem;
+        }
+
+        .project-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--white);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-desc {
+            font-size: 0.78rem;
+            line-height: 1.7;
+            color: rgba(168, 216, 240, 0.75);
+            margin-bottom: 0.8rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        /* COMPÉTENCES */
+        #competences {
+            padding: 6rem 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .skills-card {
+            background: var(--bg-sec);
+            border-radius: 12px;
+            border: 1px solid rgba(91, 179, 232, 0.2);
+            padding: 1.5rem;
+        }
+
+            .skills-card h3 {
+                font-family: 'Cinzel', serif;
+                font-size: 0.85rem;
+                color: var(--blue-light);
+                letter-spacing: 0.15em;
+                text-transform: uppercase;
+                margin-bottom: 1.2rem;
+                padding-bottom: 0.6rem;
+                border-bottom: 1px solid rgba(91, 179, 232, 0.15);
+            }
+
+        .skill-item {
+            margin-bottom: 1rem;
+        }
+
+            .skill-item:last-child {
+                margin-bottom: 0;
+            }
+
+        .skill-label {
+            display: flex;
+            align-items: center;
+            gap: 0.55rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .skill-icon-img {
+            width: 18px;
+            height: 18px;
+            flex-shrink: 0;
+            object-fit: contain;
+        }
+
+        .skill-label span {
+            font-size: 0.82rem;
+            color: var(--blue-pale);
+        }
+
+        .skill-bar-bg {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .skill-bar {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(to right, var(--blue-mid), var(--blue-light));
+            width: 0%;
+            transition: width 1.2s cubic-bezier(0.25,0.8,0.25,1);
+        }
+
+        .soft-skills-card {
+            grid-column: 1 / -1;
+        }
+
+        .soft-skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .soft-pill {
+            background: rgba(46, 111, 168, 0.2);
+            border: 1px solid rgba(91, 179, 232, 0.25);
+            color: var(--blue-pale);
+            padding: 0.35rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="snow-canvas" aria-hidden="true"></canvas>
+
+    <nav>
+        <a href="#accueil" class="nav-logo">Lennie</a>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="#accueil" class="active">Accueil</a></li>
+                <li><a href="#projets">Projets</a></li>
+                <li><a href="#competences">Compétences</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="https://github.com/lenniesimon" title="GitHub" aria-label="GitHub">
+                    <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/lennie-simon-0b419b38a/" title="LinkedIn" aria-label="LinkedIn">
+                    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg>
+                </a>
+                <a href="mailto:lsimon@gaming.tech" title="Copier l'adresse e-mail" aria-label="Copier l'adresse e-mail">
+                    <svg viewBox="0 0 24 24"><path d="M24 6v13.5c0 .828-.672 1.5-1.5 1.5H18v-9l-6 4.5-6-4.5v9H1.5C.672 21 0 20.328 0 19.5V6c0-1.243 1.007-2.25 2.25-2.25.509 0 .978.169 1.355.454L12 10.8l8.395-6.596A2.243 2.243 0 0 1 21.75 3.75C22.993 3.75 24 4.757 24 6z" /></svg>
+                </a>
+            </div>
+            <button class="hamburger" id="hamburger" type="button" aria-label="Menu" aria-controls="mobile-menu" aria-expanded="false">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobile-menu">
+        <a href="#accueil">Accueil</a>
+        <a href="#projets">Projets</a>
+        <a href="#competences">Compétences</a>
+        <div class="mobile-social-links">
+            <a href="https://github.com/lenniesimon" style="color:var(--blue-light)"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg></a>
+            <a href="https://www.linkedin.com/in/lennie-simon-0b419b38a/" style="color:var(--blue-light)"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg></a>
+            <a href="mailto:lsimon@gaming.tech" aria-label="Copier l'adresse e-mail" style="color:var(--blue-light)"><svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M24 6v13.5c0 .828-.672 1.5-1.5 1.5H18v-9l-6 4.5-6-4.5v9H1.5C.672 21 0 20.328 0 19.5V6c0-1.243 1.007-2.25 2.25-2.25.509 0 .978.169 1.355.454L12 10.8l8.395-6.596A2.243 2.243 0 0 1 21.75 3.75C22.993 3.75 24 4.757 24 6z" /></svg></a>
+        </div>
+    </div>
+
+    <!-- HERO -->
+    <section id="accueil">
+        <h1 class="hero-name fade-in">Lennie <span>Simon</span></h1>
+        <p class="hero-sub fade-in" id="typewriter"></p>
+        <p class="hero-desc fade-in">Passionée de jeux vidéo avec l'envie de devenir Lead Projet.<br>Bienvenue dans mon univers.</p>
+        <a href="#projets" class="btn-outline fade-in">Voir mes projets</a>
+        <div class="scroll-indicator">
+            <div class="mouse"><div class="wheel"></div></div>
+            <span>Scroll</span>
+        </div>
+    </section>
+
+    <!-- PROJETS -->
+    <section id="projets">
+        <div style="max-width:1200px;margin:0 auto;padding:0 2rem">
+            <h2 class="section-title fade-in">Projets</h2>
+
+            <div class="projects-controls fade-in">
+                <div class="tab-group">
+                    <button class="tab-btn active" type="button" data-tab="perso">Projet Perso</button>
+                    <button class="tab-btn" type="button" data-tab="scolaire">Projet Scolaire</button>
+                </div>
+                <div class="year-dropdown-wrapper" id="year-wrapper">
+                    <select class="year-select" id="year-select" aria-label="Année des projets scolaires">
+                        <option value="an1">Année 1</option>
+                        <option value="an2">Année 2</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="projects-grid">
+
+                <!-- PROJETS PERSO -->
+                <div class="project-group active" data-group="perso">
+                    <div class="project-card" style="background:rgba(27,58,92,0.4);border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:220px;cursor:default;">
+                        <p style="font-size:0.8rem;color:rgba(168,216,240,0.35);letter-spacing:0.1em;text-align:center;padding:2rem;">Projets à venir…</p>
+                    </div>
+                    <!-- TODO : Ajouter des projets (perso) -->
+                </div>
+
+                <!-- PROJETS SCOLAIRES — ANNÉE 1 -->
+                <div class="project-group" data-group="scolaire-an1">
+                    <a href="projects/Shoot'Em-Up.html" class="project-card fade-in">
+                        <div class="project-video-placeholder" aria-hidden="true"><div class="play-icon"></div><span>Vidéo du projet</span></div>
+                        <div class="project-info">
+                            <h3 class="project-title">Shoot ’Em Up</h3>
+                            <p class="project-desc"> Premier projet en duo : création d’un shoot ’em up en C++ avec éditeur de niveaux et parallaxe.</p>
+                            <div class="project-tags"><span class="tag">C++</span><span class="tag">SDL2</span><span class="tag">Équipe</span></div>
+                        </div>
+                    </a>
+                    <a href="projects/Gostelium.html" class="project-card fade-in">
+                        <div class="project-video-placeholder" aria-hidden="true"><div class="play-icon"></div><span>Vidéo du projet</span></div>
+                        <div class="project-info">
+                            <h3 class="project-title">Gostelium</h3>
+                            <p class="project-desc">Metroidvania musical réalisé en équipe pluridisciplinaire, où j’ai dirigé une équipe de six développeurs.</p>
+                            <div class="project-tags"><span class="tag">C++</span><span class="tag">SFML</span><span class="tag">Moteur custom</span></div>
+                        </div>
+                    </a>
+                    <a href="projects/Cookie-Clicker.html" class="project-card fade-in">
+                        <div class="project-video-placeholder" aria-hidden="true"><div class="play-icon"></div><span>Vidéo du projet</span></div>
+                        <div class="project-info">
+                            <h3 class="project-title">Cookie Clicker</h3>
+                            <p class="project-desc">Jeu réalisé en une journée en C++, intégrant progression, achievements, arbre de compétences et sauvegarde des scores.</p>
+                            <div class="project-tags"><span class="tag">C++</span><span class="tag">SDL2</span><span class="tag">From Scratch</span><span class="tag">Lead Projet</span></div>
+                        </div>
+                    </a>
+                    <a href="projects/Weedy-Mountain.html" class="project-card fade-in">
+                        <div class="project-video-placeholder" aria-hidden="true"><div class="play-icon"></div><span>Vidéo du projet</span></div>
+                        <div class="project-info">
+                            <h3 class="project-title">Weedy Mountain</h3>
+                            <p class="project-desc"> Stardew Valley-like développé sur moteur custom pendant quatre mois, où j’ai assuré le rôle de Lead Developer.</p>
+                            <div class="project-tags"><span class="tag">C++</span><span class="tag">SDL3</span><span class="tag">Moteur custom</span><span class="tag">Lead Projet</span></div>
+                        </div>
+                    </a>
+                    <!-- TODO : AJouter des projets (An 1) -->
+                </div>
+
+                <!-- PROJETS SCOLAIRES — ANNÉE 2 -->
+                <div class="project-group" data-group="scolaire-an2">
+                    <div class="project-card" style="background:rgba(27,58,92,0.4);border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:220px;cursor:default;">
+                        <p style="font-size:0.8rem;color:rgba(168,216,240,0.35);letter-spacing:0.1em;text-align:center;padding:2rem;">Projets à venir…</p>
+                    </div>
+                    <!-- TODO : Ajouter des projets (An 2) -->
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- COMPÉTENCES -->
+    <section id="competences">
+        <h2 class="section-title fade-in">Compétences</h2>
+        <div class="skills-grid">
+
+            <div class="skills-card fade-in">
+                <h3>Outils & Environnements</h3>
+
+                <!-- Visual Studio -->
+                <div class="skill-item">
+                    <div class="skill-label">
+                        <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/visualstudio/visualstudio-original.svg" alt="Visual Studio" />
+                        <span>Visual Studio</span>
+                    </div>
+                    <div class="skill-bar-bg"><div class="skill-bar" data-width="60"></div></div>
+                </div>
+
+                <!-- Git -->
+                <div class="skill-item">
+                    <div class="skill-label">
+                        <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" alt="Git" />
+                        <span>Git / GitHub</span>
+                    </div>
+                    <div class="skill-bar-bg"><div class="skill-bar" data-width="75"></div></div>
+                </div>
+
+                <!-- Excel -->
+                <div class="skill-item">
+                    <div class="skill-label">
+                        <img class="skill-icon-img" src="https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/microsoftexcel.svg" alt="Excel" />
+                        <span>Excel</span>
+                    </div>
+                    <div class="skill-bar-bg"><div class="skill-bar" data-width="80"></div></div>
+                </div>
+
+            </div>
+
+            <div class="skills-card fade-in">
+                <h3>Langages</h3>
+                <!-- C++ -->
+                <div class="skill-item">
+                    <div class="skill-label">
+                        <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg" alt="C++" />
+                        <span>C++</span>
+                    </div>
+                    <div class="skill-bar-bg"><div class="skill-bar" data-width="70"></div></div>
+                </div>
+
+
+                <!-- HTML / CSS -->
+                <div class="skill-item">
+                    <div class="skill-label">
+                        <img class="skill-icon-img" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg" alt="HTML5" />
+                        <span>HTML / CSS</span>
+                    </div>
+                    <div class="skill-bar-bg"><div class="skill-bar" data-width="15"></div></div>
+                </div>
+
+            </div>
+
+            <div class="skills-card soft-skills-card fade-in">
+                <h3>Soft Skills</h3>
+                <div class="soft-skills-list">
+                    <span class="soft-pill">Créativité</span>
+                    <span class="soft-pill">Communication</span>
+                    <span class="soft-pill">Gestion du temps</span>
+                    <span class="soft-pill">Esprit d'équipe</span>
+                    <span class="soft-pill">Adaptation</span>
+                    <span class="soft-pill">Gestion de projet</span>
+                    <span class="soft-pill">Game Designer</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p class="footer-name">Lennie Simon</p>
+        <div class="footer-icons">
+            <a href="https://github.com/lenniesimon" title="GitHub" aria-label="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" /></svg></a>
+            <a href="https://www.linkedin.com/in/lennie-simon-0b419b38a/" title="LinkedIn" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" /></svg></a>
+            <a href="mailto:lsimon@gaming.tech" title="Copier l'adresse e-mail" aria-label="Copier l'adresse e-mail"><svg viewBox="0 0 24 24"><path d="M24 6v13.5c0 .828-.672 1.5-1.5 1.5H18v-9l-6 4.5-6-4.5v9H1.5C.672 21 0 20.328 0 19.5V6c0-1.243 1.007-2.25 2.25-2.25.509 0 .978.169 1.355.454L12 10.8l8.395-6.596A2.243 2.243 0 0 1 21.75 3.75C22.993 3.75 24 4.757 24 6z" /></svg></a>
+        </div>
+        <p class="footer-quote">"Qu'est ce que le combat, si ce n'est qu'un jeu de stratégie en accéléré" - Prince Cruel</p>
+        <p class="footer-copy">© 2026 Kylian Mermin — Tous droits réservés</p>
+    </footer>
+
+    <script src="snow.js"></script>
+    <script src="copy-email.js"></script>
+    <script>
+        /* ONGLETS PROJETS */
+        const tabBtns     = document.querySelectorAll('.tab-btn');
+        const groups      = document.querySelectorAll('.project-group');
+        const yearWrapper = document.getElementById('year-wrapper');
+        const yearSelect  = document.getElementById('year-select');
+
+        function showGroup(name) {
+        groups.forEach(g => g.classList.toggle('active', g.dataset.group === name));
+        }
+
+        tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (btn.dataset.tab === 'perso') {
+        yearWrapper.classList.remove('visible');
+        showGroup('perso');
+        } else {
+        yearWrapper.classList.add('visible');
+        showGroup('scolaire-' + yearSelect.value);
+        }
+        });
+        });
+
+        yearSelect.addEventListener('change', () => {
+        showGroup('scolaire-' + yearSelect.value);
+        });
+
+        /* RESTAURER LA CATÉGORIE DU PROJET DEPUIS SON LIEN DE RETOUR */
+        const projectFile = new URLSearchParams(window.location.search).get('projet');
+        if (projectFile) {
+        const projectCard = Array.from(document.querySelectorAll('.project-card[href]'))
+        .find(card => card.getAttribute('href').endsWith(projectFile));
+        const projectGroup = projectCard?.closest('.project-group');
+        const groupName = projectGroup?.dataset.group;
+
+        if (groupName) {
+        const isSchoolProject = groupName.startsWith('scolaire-');
+        tabBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.tab === (isSchoolProject ? 'scolaire' : 'perso')));
+        yearWrapper.classList.toggle('visible', isSchoolProject);
+
+        if (isSchoolProject) yearSelect.value = groupName.replace('scolaire-', '');
+        showGroup(groupName);
+        }
+        }
+
+        /* TYPEWRITER */
+        const words = ['Game Developer', 'Étudiante passionné', 'Lead dévouée'];
+        let wi = 0, ci = 0, deleting = false;
+        const el = document.getElementById('typewriter');
+        function type() {
+        const word = words[wi];
+        if (!deleting) {
+        el.textContent = word.slice(0, ++ci);
+        if (ci === word.length) { deleting = true; setTimeout(type, 1800); return; }
+        } else {
+        el.textContent = word.slice(0, --ci);
+        if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; }
+        }
+        setTimeout(type, deleting ? 55 : 90);
+        }
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        el.textContent = words[0];
+        } else {
+        setTimeout(type, 800);
+        }
+
+        /* FADE IN */
+        const obs = new IntersectionObserver((entries) => {
+        entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+        e.target.style.transitionDelay = `${(i % 4) * 0.1}s`;
+        e.target.classList.add('visible');
+        }
+        });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.fade-in').forEach(f => obs.observe(f));
+
+        /* SKILL BARS */
+        const barObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+        if (e.isIntersecting)
+        e.target.querySelectorAll('.skill-bar').forEach(b => { b.style.width = b.dataset.width + '%'; });
+        });
+        }, { threshold: 0.3 });
+        document.querySelectorAll('.skills-card').forEach(c => barObs.observe(c));
+
+        /* NAV ACTIVE */
+        const navLinks = document.querySelectorAll('.nav-links a');
+        const navObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+        if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.nav-links a[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+        }
+        });
+        }, { threshold: 0.4 });
+        document.querySelectorAll('section[id]').forEach(s => navObs.observe(s));
+
+        /* HAMBURGER */
+        const burger     = document.getElementById('hamburger');
+        const mobileMenu = document.getElementById('mobile-menu');
+        burger.addEventListener('click', () => {
+        const isOpen = burger.classList.toggle('open');
+        mobileMenu.classList.toggle('open', isOpen);
+        burger.setAttribute('aria-expanded', String(isOpen));
+        });
+        mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+        burger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+        }));
+    </script>
+</body>
+</html>
